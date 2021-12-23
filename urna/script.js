@@ -6,6 +6,7 @@ let lateral = document.querySelector('.d-1-right');
 let numeros = document.querySelector('.d-1-3');
 
 let etapaAtual = 0;
+let numero ='';
 
 function comecarEtapa() {
     let etapa = etapas[etapaAtual];
@@ -13,7 +14,11 @@ function comecarEtapa() {
     let numeroHTML = '';
 
     for(let i=0;i<etapa.numeros;i++) {
+        if(i === 0) {
+            numeroHTML += '<div class="numero pisca"></div>';
+        } else {
         numeroHTML += '<div class="numero"></div>';
+        }
     }
 
     seuVotoPara.style.display = 'none';
@@ -23,9 +28,31 @@ function comecarEtapa() {
     lateral.innerHTML = '';
     numeros.innerHTML = numeroHTML;
 }
+function atualizaInterface() {
+   let etapa = etapas[etapaAtual];
+   let candidato = etapa.candidatos.filter((item)=>{
+    if(item.numero === numero) {
+        return true;
+    } else {
+        return false;
+    }
+   });
+
+   console.log("Candidato", candidato);
+}
 
 function clicou(n) {
-    alert("Clicou em "+n);
+   let elNumero = document.querySelector('.numero.pisca');
+   if(elNumero !== null) {
+       elNumero.innerHTML = n;
+       numero = `$(numero)$(n)`;
+       elNumero.classList.remove('pisca');
+       if(elNumero.nextElementSibling !== null) {
+        elNumero.nextElementSibling.classList.add('pisca');
+       } else {
+           atualizaInterface();
+       }
+   }
 }
 function branco() {
     alert("Clicou em BRANCO!");
